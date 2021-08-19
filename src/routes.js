@@ -12,7 +12,7 @@ const UserController = require('./app/controllers/UserController')
 const FaculdadeController = require('./app/controllers/FaculdadeController')
 const ContratoController = require('./app/controllers/ContratoController')
 
-routes.get('/inicio', (req, res) => res.json({ message: 'Bem vindo a aplicação 09' }));
+routes.get('/inicio', (req, res) => res.json({ message: 'Bem vindo a aplicação Academic Controll' }));
 
 // Model de associações
 routes.post('/associacaoStore',AssociacaoController.store)
