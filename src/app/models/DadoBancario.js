@@ -17,6 +17,7 @@ class DadoBancario extends Model {
     }
 
     static associate(models){
+        // this.belongsTo(models.Associacao, {foreignKey: 'id_associacao', as: 'associacao'})
         this.belongsTo(models.Associacao, {foreignKey: 'id_associacao', as: 'associacao'})
     }
 }
