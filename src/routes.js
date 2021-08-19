@@ -9,6 +9,7 @@ const authenticate = require('./app/middleware/auth')
 const AssociacaoController = require('./app/controllers/AssociacaoController')
 const DadosBancariosController = require('./app/controllers/DadosBancariosController')
 const UserController = require('./app/controllers/UserController')
+const FaculdadeController = require('./app/controllers/FaculdadeController')
 
 routes.get('/inicio', (req, res) => res.json({ message: 'Bem vindo a aplicação 09' }));
 
@@ -35,5 +36,13 @@ routes.put('/user/updatePhoto',authenticate, multer(multerConfig).single("file")
 routes.put('/user/update',authenticate, UserController.update)
 routes.put('/user/password', UserController.updatePassword)
 routes.delete('/user/delete/:id', authenticate, UserController.delete)
+
+// // Rotas da Faculdade
+routes.post('/faculdadeStore', authenticate, FaculdadeController.store)
+routes.get('/faculdades', authenticate, FaculdadeController.index)
+routes.get('/faculdades/associacao/:id', FaculdadeController.indexAssociated)
+routes.get('/faculdades/:id', authenticate, FaculdadeController.indexId)
+routes.put('/faculdade/update/:id',authenticate, FaculdadeController.update)
+routes.delete('/faculdade/delete/:id', authenticate, FaculdadeController.delete)
 
 module.exports = routes;
