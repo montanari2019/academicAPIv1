@@ -1,8 +1,8 @@
-const  { Model, DataTypes }  = require('sequelize');
+const  { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt')
-// const aws = require('aws-sdk')
+const aws = require('aws-sdk');
 
-// const s3 = new aws.S3()
+const s3 = new aws.S3
 
 class User extends Model {
     static init(sequelize) {
@@ -48,10 +48,11 @@ class User extends Model {
         return bcrypt.compare(password, this.password_hash)
     }
 
-    // s3Delete(key){       
-    //     return s3.deleteObject({Bucket: 'controledeacademicos',Key: key
-    //     }).promise()
-    // }
+    s3Delete(key){       
+        return s3.deleteObject({Bucket: 'controledeacademicos',Key: key
+        }).promise()
+        
+    }
 
 }
 

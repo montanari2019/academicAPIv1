@@ -1,79 +1,92 @@
 const jwt = require('jsonwebtoken')
 const User = require("../models/User")
+const Associacao = require("../models/Associacao")
 const Yup = require("yup")
+const jsBR = require('js-brasil')
 
 
 module.exports = {
 
     async store(req, res){
 
-        // const usersExists = await User.findOne({
-        //     where: { email: req.body.email}
-        // })
 
-        // if(usersExists){
-        //     return res.status(400).json({error: 'Email ja existente'})
-        // }
+        console.log('body: ' , req.body)
 
-        // const schema = Yup.object().shape({
-        //     nome: Yup.string().required(),
-        //     email: Yup.string().required().email(),
-        //     password: Yup.string().required().min(6),
-        //     admin: Yup.boolean().required(),
-        //     r_g: Yup.number().required(),
-        //     c_p_f: Yup.number().required().min(11).max(11),
-        //     telefone: Yup.number().required(),
-        //     cep: Yup.number().required(),
-        //     endereco: Yup.string().required(),
-        //     bairro: Yup.string().required(),
-        //     numero: Yup.string().required(),
-        //     cidade: Yup.string().required(),
-        //     estado: Yup.string().required(),
-        //     id_associacao: Yup.number().required(),
-        // })
+        const usersExists = await User.findOne({
+            where: { email: req.body.email}
+        })
 
-        // if(!(await schema.isValid(req.body))){
-        //     return res.status(400).json({ error: 'Falha na validação'})
-        // }
+        if(usersExists){
+            return res.status(400).json({error: 'Email ja existente'})
+        }
+
+        const schema = Yup.object().shape({
+            nome: Yup.string().required(),
+            email: Yup.string().required().email(),
+            password: Yup.string().required().min(6),
+            admin: Yup.boolean().required(),
+            r_g: Yup.number().required(),
+            c_p_f: Yup.number().required().min(11),
+            telefone: Yup.number().required(),
+            cep: Yup.number().required(),
+            endereco: Yup.string().required(),
+            bairro: Yup.string().required(),
+            numero: Yup.string().required(),
+            cidade: Yup.string().required(),
+            estado: Yup.string().required(),
+            id_associacao: Yup.number().required(),
+        })
+
+        if(!(await schema.isValid(req.body))){            
+            return res.status(400).json({ error: 'Falha na validação 01'})
+        }
+
+        const cpf = jsBR.validateBr.cpf(req.body.c_p_f)
+
+        console.log("Validação CPF", cpf)
+
+        if(cpf == false){
+            return res.status(400).json({ erro: 'Cpf Inválido'})
+        }
 
 
 
-        // const { key, location } = req.file
+        const { key, location } = req.file
 
-        // console.log("dados do body: ", req.body)
-        // console.log("dados do file: ", req.file)
+        console.log("dados do body: ", req.body)
+        console.log("dados do file: ", req.file)
 
-        // const { id, nome, email, admin, foto_url, created_at } = await User.create({
-        //     nome: req.body.nome,
-        //     email: req.body.email,
-        //     password: req.body.password,
-        //     admin: req.body.admin,
-        //     r_g: req.body.r_g,
-        //     c_p_f: req.body.c_p_f,
-        //     telefone: req.body.telefone,
-        //     cep: req.body.cep,
-        //     endereco: req.body.endereco,
-        //     bairro: req.body.bairro,
-        //     numero: req.body.numero,
-        //     cidade: req.body.cidade,
-        //     estado: req.body.estado,
-        //     id_associacao: req.body.id_associacao,
-        //     foto: key,
-        //     foto_url: location
-        // })
+        const { id, nome, email, admin, foto_url, created_at } = await User.create({
+            nome: req.body.nome,
+            email: req.body.email,
+            password: req.body.password,
+            admin: req.body.admin,
+            r_g: req.body.r_g,
+            c_p_f: req.body.c_p_f,
+            telefone: req.body.telefone,
+            cep: req.body.cep,
+            endereco: req.body.endereco,
+            bairro: req.body.bairro,
+            numero: req.body.numero,
+            cidade: req.body.cidade,
+            estado: req.body.estado,
+            id_associacao: req.body.id_associacao,
+            foto: key,
+            foto_url: location
+        })
 
         
 
-        // return res.json({
-        //     id,
-        //     nome,
-        //     email,
-        //     admin,
-        //     foto_url,
-        //     created_at
-        // })
+        return res.json({
+            id,
+            nome,
+            email,
+            admin,
+            foto_url,
+            created_at
+        })
 
-        return res.json({ok: true})
+        // return res.json({ok: true})
 
     },
 
@@ -122,6 +135,10 @@ module.exports = {
 
         const user = await User.findByPk(id)
 
+        if(!user) {
+            return res.status(404).json({ erro: 'Usuário não exite'})
+        }
+
         return res.json(user)
     },
 
@@ -149,18 +166,70 @@ module.exports = {
         return res.json(users)
     },
 
-    async update (req, res) {
+    async updatePhoto (req, res) {
 
         console.log("dados do body: ", req.body)
-        console.log("dados do file: ", req.file)
+ 
 
         const user_id = req.userId
+        
         const { key, location } = req.file
 
         const user = await User.findByPk(user_id)
+        const associacao = await Associacao.findByPk(user.id_associacao)
 
         if(!user){
-            return res.status(401).json({ erro: 'Usuário não exite'})
+            return res.status(404).json({ erro: 'Usuário não exite'})
+        }
+        if(!associacao){
+            return res.status(404).json({ erro: 'Associação não existe'})
+        }
+
+
+
+        
+        console.log('key da foto', user.foto)
+
+        // Deletando foto do servido AWS
+        await user.s3Delete(user.foto)
+        
+
+        const { id, nome, email, admin, foto, foto_url, createdAt, updatedAt } = await user.update({
+            foto: key,
+            foto_url: location
+        })
+
+        
+        return res.json({
+            id,
+            nome,
+            email,
+            admin,
+            foto,
+            foto_url,
+            createdAt,
+            updatedAt,
+
+        })
+
+        // res.json({ok: true})
+    },
+
+    async update (req, res) {
+
+        console.log("dados do body: ", req.body)
+        
+
+        const user_id = req.userId
+        
+        const user = await User.findByPk(user_id)
+        const associacao = await Associacao.findByPk(user.id_associacao)
+
+        if(!user){
+            return res.status(404).json({ erro: 'Usuário não exite'})
+        }
+        if(!associacao){
+            return res.status(404).json({ erro: 'Associação não existe'})
         }
 
         const schema = Yup.object().shape({
@@ -182,31 +251,9 @@ module.exports = {
         if(!(await schema.isValid(req.body))){
             return res.status(400).json({ error: 'Falha na validação'})
         }
-
-        
-        console.log('key da foto', user.foto)
-
-        // Deletando foto do servido AWS
-        await user.s3Delete(user.foto)
         
 
-        const { id, nome, email, admin, foto, foto_url, created_at, updated_at } = await user.update({
-            nome: req.body.nome,
-            email: req.body.email,
-            admin: req.body.admin,
-            r_g: req.body.r_g,
-            c_p_f: req.body.c_p_f,
-            telefone: req.body.telefone,
-            cep: req.body.cep,
-            endereco: req.body.endereco,
-            bairro: req.body.bairro,
-            numero: req.body.numero,
-            cidade: req.body.cidade,
-            estado: req.body.estado,
-            id_associacao: req.body.id_associacao,
-            foto: key,
-            foto_url: location
-        })
+        const { id, nome, email, admin, foto, foto_url, createdAt, updatedAt } = await user.update(req.body)
 
         
         return res.json({
@@ -216,8 +263,8 @@ module.exports = {
             admin,
             foto,
             foto_url,
-            created_at,
-            updated_at,
+            createdAt,
+            updatedAt,
 
         })
 
@@ -255,20 +302,9 @@ module.exports = {
     },
 
     async delete(req, res) {
-        const { user_id } = req.body
-        const adminId = req.userId
+        const { id } = req.params
 
-        const admin = await User.findByPk(adminId)
-        const user = await User.findByPk(user_id)
-
-        // // Validando Admin
-        // if(!admin) {
-        //     return res.status(401).json({ erro: 'Admin não exite'})
-        // }
-
-        if(!user){
-            return res.status(401).json({ erro: 'Usuário não exite'})
-        }
+        const user = await User.findByPk(id)
 
         console.log('key da foto', user.foto)
 
