@@ -10,6 +10,7 @@ const AssociacaoController = require('./app/controllers/AssociacaoController')
 const DadosBancariosController = require('./app/controllers/DadosBancariosController')
 const UserController = require('./app/controllers/UserController')
 const FaculdadeController = require('./app/controllers/FaculdadeController')
+const ContratoController = require('./app/controllers/ContratoController')
 
 routes.get('/inicio', (req, res) => res.json({ message: 'Bem vindo a aplicação 09' }));
 
@@ -44,5 +45,14 @@ routes.get('/faculdades/associacao/:id', FaculdadeController.indexAssociated)
 routes.get('/faculdades/:id', authenticate, FaculdadeController.indexId)
 routes.put('/faculdade/update/:id',authenticate, FaculdadeController.update)
 routes.delete('/faculdade/delete/:id', authenticate, FaculdadeController.delete)
+
+// Rotas do Contrato
+routes.post('/contratoStore', ContratoController.store)
+routes.get('/contratos', authenticate, ContratoController.index)
+routes.get('/contrato/:id', authenticate, ContratoController.indexID)
+routes.put('/contrato/update/:id',authenticate, ContratoController.update)
+routes.put('/contrato/aprovar/:id',authenticate, ContratoController.aprovarContrato)
+routes.put('/contrato/cancelar/:id',authenticate, ContratoController.cancelar)
+routes.delete('/contrato/delete/:id', authenticate, ContratoController.delete)
 
 module.exports = routes;
