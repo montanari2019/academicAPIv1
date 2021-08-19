@@ -26,14 +26,14 @@ routes.put('/associacao/dadosbancariosUpdate/:id',authenticate, DadosBancariosCo
 routes.delete('/associacao/dadosbancariosDelete/:id', authenticate,DadosBancariosController.delete);
 
 // // Rotas dos usuários
-routes.post('/userStore', multer(multerConfig).single("file"), UserController.store)
-routes.get('/users', authenticate, UserController.index)
-routes.get('/users/:id',authenticate, UserController.indexId)
-routes.get('/users/associacao/:id',authenticate, UserController.indexAssociated)
-routes.post('/authenticate', UserController.authentication)
-routes.put('/user/updatePhoto',authenticate, multer(multerConfig).single("file"), UserController.updatePhoto)
-routes.put('/user/update',authenticate, UserController.update)
-routes.put('/user/password', UserController.updatePassword)
-routes.delete('/user/delete/:id', authenticate, UserController.delete)
+routes.post('/userStore', multer(multerConfig).single("file"), UserController.store);
+routes.get('/users', authenticate, UserController.index);
+routes.get('/users/:id',authenticate, UserController.indexId);
+routes.get('/users/associacao/:id',authenticate, UserController.indexAssociated);
+routes.post('/authenticate', UserController.authentication);
+routes.put('/user/updatePhoto',authenticate, multer(multerConfig).single("file"), UserController.updatePhoto);
+routes.put('/user/update',authenticate, UserController.update);
+routes.put('/user/password', UserController.updatePassword);
+routes.delete('/user/delete/:id', authenticate, UserController.delete);
 
 module.exports = routes;
