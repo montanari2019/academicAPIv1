@@ -107,7 +107,7 @@ module.exports = {
             return res.status(401).json({ erro: 'Senha Invalida'})
         }
 
-        const { id, nome, id_associacao } = user
+        const { id, nome, id_associacao, admin } = user
 
         // Gerando token
 
@@ -116,6 +116,7 @@ module.exports = {
                 id,
                 nome,
                 email,
+                admin,
                 id_associacao
             },
             token: jwt.sign({ id, }, process.env.HASH,{
