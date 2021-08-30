@@ -126,6 +126,11 @@ module.exports = {
         })
     },
 
+    async loadSession( req, res){
+        const userAuth = await User.findByPk(req.userId)
+        return res.json(userAuth)
+    },
+    
     async index(req, res) {
         const { password_hash, ...response } = await User.findAll()
         return res.status(200).json(response)
