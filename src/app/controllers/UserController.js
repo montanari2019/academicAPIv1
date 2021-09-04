@@ -119,7 +119,7 @@ module.exports = {
   },
 
   async loadSession(req, res) {
-    const { id, nome, email, admin, foto_url, created_at, update_at } = await User.findByPk(req.userId);
+    const { id, nome, email, admin, foto_url, created_at, update_at, id_associacao } = await User.findByPk(req.userId);
     return res.json({
       id,
       nome,
@@ -128,6 +128,7 @@ module.exports = {
       foto_url,
       created_at,
       update_at,
+      id_associacao,
     });
   },
 
