@@ -82,9 +82,10 @@ module.exports = {
   },
 
   async authentication(req, res) {
-    const { email, password } = req.body;
+    const email_login = req.body.email;
+    const password = req.body.password;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email: email_login } });
 
     console.log(password);
 
@@ -97,30 +98,7 @@ module.exports = {
       return res.status(401).json({ erro: "Senha Invalida" });
     }
 
-    const { id, nome, email_user, admin, foto_url, created_at, update_at, id_associacao } = user;
-
-    // Gerando token
-
-    return res.json({
-      user: {
-        id,
-        nome,
-        email_user,
-        admin,
-        foto_url,
-        created_at,
-        update_at,
-        id_associacao
-      },
-      token: jwt.sign({ id }, process.env.HASH, {
-        expiresIn: process.env.EXPIRATION,
-      }),
-    });
-  },
-
-  async loadSession(req, res) {
-    const { id, nome, email, admin, foto_url, created_at, update_at, id_associacao } = await User.findByPk(req.userId);
-    return res.json({
+    const {
       id,
       nome,
       email,
@@ -129,6 +107,85 @@ module.exports = {
       created_at,
       update_at,
       id_associacao,
+      r_g,
+      c_p_f,
+      telefone,
+      cep,
+      endereco,
+      bairro,
+      numero,
+      cidade,
+      estado,
+    } = user;
+
+    // Gerando token
+
+    return res.json({
+      user: {
+        id,
+        nome,
+        email,
+        admin,
+        r_g,
+        c_p_f,
+        telefone,
+        cep,
+        endereco,
+        bairro,
+        numero,
+        cidade,
+        estado,
+        foto_url,
+        created_at,
+        update_at,
+        id_associacao,
+      },
+      token: jwt.sign({ id }, process.env.HASH, {
+        expiresIn: process.env.EXPIRATION,
+      }),
+    });
+  },
+
+  async loadSession(req, res) {
+    const {
+      id,
+      nome,
+      email,
+      admin,
+      foto_url,
+      created_at,
+      update_at,
+      id_associacao,
+      r_g,
+      c_p_f,
+      telefone,
+      cep,
+      endereco,
+      bairro,
+      numero,
+      cidade,
+      estado,
+    } = await User.findByPk(req.userId);
+    return res.json({
+      user: {
+        id,
+        nome,
+        email,
+        admin,
+        r_g,
+        c_p_f,
+        telefone,
+        cep,
+        endereco,
+        bairro,
+        numero,
+        cidade,
+        estado,
+        foto_url,
+        created_at,
+        update_at,
+        id_associacao,
+      },
     });
   },
 
