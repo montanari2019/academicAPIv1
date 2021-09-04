@@ -109,7 +109,7 @@ module.exports = {
         if(!contratos){
             return res.status(404).json({ error: 'Contratos não encontrados'})
         }
-        return res.json(contratos)
+        return res.json({ contratos })
         
     },
 
