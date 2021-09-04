@@ -101,6 +101,18 @@ module.exports = {
         return res.json(contrato)
     },
 
+    async indexUserID (req, res) {
+        const userAuth = await User.findByPk(req.userId)
+        const contratos = await Contrato.findAll({
+            where: { id_user: userAuth.id}
+        })
+        if(!contratos){
+            return res.status(404).json({ error: 'Contratos não encontrados'})
+        }
+        return res.json(contratos)
+        
+    },
+
     async update(req, res) {
 
         const schema = Yup.object().shape({
