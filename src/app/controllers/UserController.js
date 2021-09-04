@@ -110,7 +110,6 @@ module.exports = {
         foto_url,
         created_at,
         update_at,
-        id_associacao,
       },
       token: jwt.sign({ id }, process.env.HASH, {
         expiresIn: process.env.EXPIRATION,
