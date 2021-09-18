@@ -253,7 +253,9 @@ module.exports = {
     console.log("key da foto", user.foto);
 
     // Deletando foto do servido AWS
-    await user.s3Delete(user.foto);
+    if(user.foto != null){
+      await user.s3Delete(user.foto);
+    }
 
     const { id, nome, email, admin, foto, foto_url, createdAt, updatedAt } = await user.update({
         foto: key,
