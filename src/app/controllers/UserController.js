@@ -45,7 +45,7 @@ module.exports = {
       return res.status(400).json({ erro: "Cpf Inválido" });
     }
 
-    const { key, location } = req.file;
+   
 
     console.log("dados do body: ", req.body);
     console.log("dados do file: ", req.file);
@@ -65,8 +65,7 @@ module.exports = {
       cidade: req.body.cidade,
       estado: req.body.estado,
       id_associacao: req.body.id_associacao,
-      foto: key,
-      foto_url: location,
+
     });
 
     return res.json({
@@ -256,8 +255,7 @@ module.exports = {
     // Deletando foto do servido AWS
     await user.s3Delete(user.foto);
 
-    const { id, nome, email, admin, foto, foto_url, createdAt, updatedAt } =
-      await user.update({
+    const { id, nome, email, admin, foto, foto_url, createdAt, updatedAt } = await user.update({
         foto: key,
         foto_url: location,
       });
