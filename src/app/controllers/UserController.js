@@ -21,10 +21,10 @@ module.exports = {
       email: Yup.string().required().email(),
       password: Yup.string().required().min(6),
       admin: Yup.boolean().required(),
-      r_g: Yup.number().required(),
-      c_p_f: Yup.number().required().min(11),
-      telefone: Yup.number().required(),
-      cep: Yup.number().required(),
+      r_g: Yup.string().required(),
+      c_p_f:Yup.string().required().min(11),
+      telefone: Yup.string().required(),
+      cep: Yup.string().required(),
       endereco: Yup.string().required(),
       bairro: Yup.string().required(),
       numero: Yup.string().required(),
@@ -35,6 +35,7 @@ module.exports = {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: "Falha na validação 01" });
+
     }
 
     const cpf = jsBR.validateBr.cpf(req.body.c_p_f);

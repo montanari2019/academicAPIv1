@@ -28,7 +28,7 @@ routes.put('/associacao/dadosbancariosUpdate/:id',authenticate, DadosBancariosCo
 routes.delete('/associacao/dadosbancariosDelete/:id', authenticate,DadosBancariosController.delete);
 
 // // Rotas dos usuários
-routes.post('/userStore', multer(multerConfig).single("file"), UserController.store)
+routes.post('/userStore', UserController.store)
 routes.get('/users', authenticate, UserController.index)
 routes.get('/users/:id',authenticate, UserController.indexId)
 routes.get('/users/associacao/:id',authenticate, UserController.indexAssociated)
