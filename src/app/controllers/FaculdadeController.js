@@ -52,11 +52,6 @@ module.exports = {
     async index(req, res) {
         const userAuth = await User.findByPk(req.userId)
 
-
-        if(userAuth.admin != true) {
-            return res.status(401).json({ erro: 'Usuário não tem permissão para acessar esses dados'})
-        }
-
         const faculdades = await Faculdade.findAll({
             where: { id_associacao: userAuth.id_associacao }
         })
