@@ -101,6 +101,22 @@ module.exports = {
         return res.json(contrato)
     },
 
+    async contratosPendentes(req, res){
+        const userAuth = await User.findByPk(req.userId)
+        if(userAuth.admin == False){
+            return res.status(401).json({ error: 'Usuário sem autorização'})
+        }
+        const contratosPendentes = await Contrato.findAll({
+            where: { aprovado: false },
+            include: [
+                { model: User, as: 'user' },
+            ]
+        })
+        // console.log(contratosPendentes)
+
+        return res.json(contratosPendentes)
+    },
+
     async indexUserID (req, res) {
         const userAuth = await User.findByPk(req.userId)
         const contratos = await Contrato.findAll({

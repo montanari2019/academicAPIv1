@@ -50,6 +50,7 @@ routes.delete('/faculdade/delete/:id', authenticate, FaculdadeController.delete)
 // Rotas do Contrato
 routes.post('/contratoStore', ContratoController.store)
 routes.get('/contratos', authenticate, ContratoController.index)
+routes.get('/contratos/pendentes', authenticate, ContratoController.contratosPendentes)
 routes.get('/contrato/:id', authenticate, ContratoController.indexID)
 routes.get('/contratoUser/', authenticate, ContratoController.indexUserID)
 routes.put('/contrato/update/:id',authenticate, ContratoController.update)
