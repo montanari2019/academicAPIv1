@@ -286,8 +286,8 @@ module.exports = {
 
         await contrato.update({
             admin_aprovocao: userAuth.nome,
-            aprovado: req.body.aprovado,
-            descricao: req.body.descricao,
+            aprovado: true,
+            descricao: "Aprovado com sucesso",
             vigente: true,
         })
          
