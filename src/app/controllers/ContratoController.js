@@ -117,7 +117,24 @@ module.exports = {
         return res.json(contratosPendentes)
     },
 
-    async indexUserID (req, res) {
+    async listUserContratoFaculdade (req,res){
+        const userAuth = await User.findByPk(req.userId)
+        const userAssociated = req.params.id
+        if(userAuth.admin == false){
+            return res.status(401).json({ error: 'Usuário sem autorização'})
+        }
+
+        const userContratoList = await Contrato.findAll({
+            where: { id: userAssociated },
+            include: [
+                { model: User, as: 'user' },
+                {model: Faculdade, as: 'faculdade'}
+            ]
+        })
+        return res.json(userContratoList)
+    },
+
+    async indexUserAuthID (req, res) {
         const userAuth = await User.findByPk(req.userId)
         const contratos = await Contrato.findAll({
             where: { id_user: userAuth.id}
