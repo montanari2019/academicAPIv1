@@ -133,6 +133,22 @@ module.exports = {
         return res.json(contratosPendentes)
     },
 
+    async contratosCancelados(req, res){
+        const userAuth = await User.findByPk(req.userId)
+        if(userAuth.admin == false){
+            return res.status(401).json({ error: 'Usuário sem autorização'})
+        }
+        const contratosPendentes = await Contrato.findAll({
+            where: { cancelado: true },
+            include: [
+                { model: User, as: 'user' },
+            ]
+        })
+        // console.log(contratosPendentes)
+
+        return res.json(contratosPendentes)
+    },
+
     async listUserContratoFaculdade (req,res){
         const userAuth = await User.findByPk(req.userId)
         const userAssociated = req.params.id
