@@ -141,7 +141,7 @@ module.exports = {
         }
 
         const userContratoList = await Contrato.findAll({
-            where: { id: userAssociated },
+            where: { id_user: userAssociated },
             include: [
                 { model: User, as: 'user' },
                 {model: Faculdade, as: 'faculdade'}
