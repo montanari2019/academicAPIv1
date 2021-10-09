@@ -123,7 +123,7 @@ module.exports = {
             return res.status(401).json({ error: 'Usuário sem autorização'})
         }
         const contratosPendentes = await Contrato.findAll({
-            where: { aprovado: true },
+            where: { vigente: true },
             include: [
                 { model: User, as: 'user' },
             ]
@@ -316,6 +316,7 @@ module.exports = {
         }
 
         await contrato.update({
+
             descricao: req.body.descricao,
             vigente: false,
             cancelado: true,
