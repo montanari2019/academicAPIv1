@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const passport = require('passport');
 
 const routes = express.Router();
 
@@ -60,5 +61,16 @@ routes.put('/contrato/update/:id',authenticate, ContratoController.update)
 routes.put('/contrato/aprovar/:id',authenticate, ContratoController.aprovarContrato)
 routes.put('/contrato/cancelar/:id',authenticate, ContratoController.cancelar)
 routes.delete('/contrato/delete/:id', authenticate, ContratoController.delete)
+
+
+routes.get('/auth/example',
+  passport.authenticate('oauth2'));
+
+routes.get('/auth/example/callback',
+  passport.authenticate('oauth2', { failureRedirect: 'http://localhost:8080/?#/user' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 module.exports = routes;
