@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-oauth2");
+const DadoBancario = require("../src/app/models/DadoBancario")
 
 require("./database/index");
 
@@ -20,15 +21,14 @@ app.use(routes);
 passport.use(
   new OAuth2Strategy(
     {
-      authorizationURL:
-        "https://sandbox.sicoob.com.br/oauth2/authorize?response_type=code&redirect_uri=https://google.com&client_id=Oob9qfkdsDNSAl2hWD43N2oxr58a",
+      authorizationURL:"https://sandbox.sicoob.com.br/oauth2/authorize?response_type=code&redirect_uri=http://localhost:3236/auth/example/callback&client_id=WSqTJUVMcf69ebmG15QNwbrDf4Ea&scope=cobranca_boletos_incluir+cobranca_boletos_consultar+cobranca_boletos_pagador+cobranca_boletos_segunda_via",
       tokenURL: "https://sandbox.sicoob.com.br/token",
-      clientID: "Oob9qfkdsDNSAl2hWD43N2oxr58a",
-      clientSecret: "ecKwzvaHxLYBI58b8WwTPYFu220a",
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "http://localhost:3236/auth/example/callback",
     },
 
-    function (accessToken, refreshToken, profile, callback) {
+    async function (accessToken, refreshToken, profile, callback) {
       const object = {
         accessToken: accessToken,
         refreshToken: refreshToken,
@@ -37,6 +37,12 @@ passport.use(
       };
 
       console.log(object);
+    //   Salvnado dados do token para um dados bacário pentencente a uma associação no caso estática mesmo
+    const dadosBancarios = await DadoBancario.findByPk(1)
+      await dadosBancarios.update({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      })
       callback()
     }
   )

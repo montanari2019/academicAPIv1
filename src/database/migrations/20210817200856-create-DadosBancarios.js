@@ -30,11 +30,19 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    accessToken:{
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    refreshToken: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     id_associacao:{
       type: sequelize.INTEGER,
       references: { model: 'Associacao', key: 'id' },
       allowNull: false
-    },   
+    },  
     created_at:{
       type: Sequelize.DATE,
       allowNull: false

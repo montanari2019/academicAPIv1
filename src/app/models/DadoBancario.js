@@ -8,6 +8,8 @@ class DadoBancario extends Model {
             conta: DataTypes.STRING,
             cod_cedente: DataTypes.STRING,
             cod_convenio: DataTypes.STRING,
+            accessToken: DataTypes.STRING,
+            refreshToken: DataTypes.STRING,
                 
         },
         {

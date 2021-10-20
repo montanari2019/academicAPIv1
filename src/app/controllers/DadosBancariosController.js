@@ -43,6 +43,8 @@ module.exports = {
         const dadosBancarios = await DadoBancario.findAll({
             where: { id_associacao: id },
         })
+
+        
         return res.json(dadosBancarios)
     },
 
@@ -78,6 +80,8 @@ module.exports = {
         }
 
         await dadosBancarios.update(req.body)
+
+        
 
         return res.json(dadosBancarios)
     },
