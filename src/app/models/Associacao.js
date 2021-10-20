@@ -7,7 +7,6 @@ class Associacao extends Model{
         {
             nome: DataTypes.STRING,
             cnpj: DataTypes.STRING,
-
         },
         {
             sequelize,

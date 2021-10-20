@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const passport = require('passport');
 
 const routes = express.Router();
 
@@ -11,6 +12,7 @@ const DadosBancariosController = require('./app/controllers/DadosBancariosContro
 const UserController = require('./app/controllers/UserController')
 const FaculdadeController = require('./app/controllers/FaculdadeController')
 const ContratoController = require('./app/controllers/ContratoController')
+const SicoobController = require('./app/controllers/SicoobController')
 
 routes.get('/inicio', (req, res) => res.json({ message: 'Bem vindo a aplicação Academic Controll' }));
 
@@ -19,6 +21,10 @@ routes.post('/associacaoStore',AssociacaoController.store)
 routes.get('/associacaoIndex',AssociacaoController.index)
 routes.put('/associacaoUpdate/:id',AssociacaoController.update)
 routes.delete('/associacaoDelete/:id',AssociacaoController.delete)
+
+// Controller api sicoob
+
+routes.get('/listarBoletoPagador', authenticate, SicoobController.listarPagador)
 
 // Model de dados bancarios de cada associação
 routes.post('/associacao/dadosbancariosStore', DadosBancariosController.store);
@@ -60,5 +66,16 @@ routes.put('/contrato/update/:id',authenticate, ContratoController.update)
 routes.put('/contrato/aprovar/:id',authenticate, ContratoController.aprovarContrato)
 routes.put('/contrato/cancelar/:id',authenticate, ContratoController.cancelar)
 routes.delete('/contrato/delete/:id', authenticate, ContratoController.delete)
+
+
+routes.get('/auth/example',
+  passport.authenticate('oauth2'));
+
+routes.get('/auth/example/callback',
+  passport.authenticate('oauth2', { failureRedirect: 'http://localhost:8080/?#/user' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 module.exports = routes;
