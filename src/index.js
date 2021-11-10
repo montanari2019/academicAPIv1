@@ -7,6 +7,7 @@ const cors = require("cors");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-oauth2");
 const DadoBancario = require("../src/app/models/DadoBancario")
+const Jobs = require("../src/config/schedule")
 
 require("./database/index");
 
@@ -48,7 +49,12 @@ passport.use(
   )
 );
 
+// Jobs.jobRefreshToken()
+
 const port = 3236;
+
+
+
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Servidor rodando na porta ${port}`);
