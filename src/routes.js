@@ -26,6 +26,7 @@ routes.delete('/associacaoDelete/:id',AssociacaoController.delete)
 
 routes.get('/listarBoletoPagador', authenticate, SicoobController.listarPagador)
 routes.get('/segundaVia', authenticate, SicoobController.emitirSegundaVia)
+routes.post('/emitirBoleto', authenticate, SicoobController.emitirBoleto)
 
 // Model de dados bancarios de cada associação
 routes.post('/associacao/dadosbancariosStore', DadosBancariosController.store);
