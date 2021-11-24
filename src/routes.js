@@ -25,6 +25,7 @@ routes.delete('/associacaoDelete/:id',AssociacaoController.delete)
 // Controller api sicoob
 
 routes.get('/listarBoletoPagador', authenticate, SicoobController.listarPagador)
+routes.get('/segundaVia', authenticate, SicoobController.emitirSegundaVia)
 
 // Model de dados bancarios de cada associação
 routes.post('/associacao/dadosbancariosStore', DadosBancariosController.store);

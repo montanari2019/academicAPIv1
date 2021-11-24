@@ -1,0 +1,1339 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Associação dos acadêmicos - Backend",
+    "description": "Esta é a documentação da API do sistema web para associação dos acadêmicos de Chupinguaia",
+    "contact": {
+      "email": "ikaro.montanari31@gmail.com"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api-academic-control-v2.herokuapp.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Associado",
+      "description": "Crud e login de associados"
+    },
+    {
+      "name": "Admin",
+      "description": "Crud e login de adiminstradores"
+    },
+    {
+      "name": "Associacao",
+      "description": "Crud de associações"
+    },
+    {
+      "name": "Contrato",
+      "description": "Crud de contrato"
+    },
+    {
+      "name": "Boletos",
+      "description": "Crud de boletos"
+    },
+    {
+      "name": "Cobranca",
+      "description": "Crud de cobrança"
+    },
+    {
+      "name": "Instituicao",
+      "description": "Crud de instituição"
+    }
+  ],
+  "paths": {
+    "/authenticate": {
+      "post": {
+        "tags": [
+          "Associado"
+        ],
+        "summary": "Login de associados e admin",
+        "description": "Essa rota permite que o associado ou admin possa fazer login no sistema",
+        "operationId": "loginAssociado",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginAssociado"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Requsiição foi bem sucedida."
+          },
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/user/update": {
+      "put": {
+        "tags": [
+          "Associado"
+        ],
+        "summary": "Alterar dados de um associado",
+        "description": "Essa rota permite a alteração de dados, os dados sendo validos e passando apenas o token de acesso que por sua vez a aplicação irá extrair o ID do usuário em questão e efetuar as operações necessárias.",
+        "operationId": "atualizarDados",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/alterarDados"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/user/updatePhoto": {
+      "put": {
+        "tags": [
+          "Associado"
+        ],
+        "summary": "Alterar a foto de um usuário",
+        "description": "Essa rota permite a alteração da foto de perfil do usuário, novamente usando o token como parametro para buscar o usuário e realizar a alteração.",
+        "operationId": "fotoUser",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/fotoUser"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/user/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Associado"
+        ],
+        "summary": "Deletar um associado a partir do {id}",
+        "description": "Essa rota permite a deleção de um associado a partir do seu {id}",
+        "operationId": "associadoDelete",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/associadoDelete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Associado"
+        ],
+        "summary": "Listagem de todos os associados",
+        "description": "Essa rota retornar um lista de todos os associados cadastrados",
+        "operationId": "listaAssociado",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/solicitar": {
+      "post": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Solicitação de contrato para a associação",
+        "description": "Essa rota permite que um contrato seja gerado, para isso o mesmo deve ser preenchido com todos os dadso do formulário, após o mesmo aguarda ser aceito ou não",
+        "operationId": "solicitarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da solicitação de contrato",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/associadoCRUD"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/cancelar/{id}": {
+      "post": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Pedido de cancelamento de contrato a partir de um {id}",
+        "description": "Essa rota permite que um contrato seja cancelado, passando um {id} como parâmetro",
+        "operationId": "cancelarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cancelarContrato"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/{id}": {
+      "delete": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Deletar contrato que ja foi cancelado, a partir de um id",
+        "description": "Essa rota permite que um contrato seja deletado, passando um id como parâmetro para essa operação",
+        "operationId": "deleteContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/delete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/aprovar/{id}": {
+      "post": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Resposta do contrato",
+        "description": "Essa rota permite enviar uma resposta a solicitação de contrato, passando o {id} do contrato como parâmetro",
+        "operationId": "AprovarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cancelarContrato"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/renovar/{id}": {
+      "post": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Renovar contrato",
+        "description": "Essa rota permite que um contrato seja renovado, necessita do {id} do contrato em questão para que seja realizada essa operação",
+        "operationId": "renovarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/renovarContrato"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato": {
+      "get": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Listar todos os contrato",
+        "description": "Essa rota lista todos os contratos existentes",
+        "operationId": "ListarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/listar/{id}": {
+      "get": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Listar os contratos de um associado",
+        "description": "Essa rota lista todos os contratos existentes de um associado, necessita do {id} do associado para realizar essa consulta",
+        "operationId": "ListarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contratoId"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/contrato/solicitacao": {
+      "get": {
+        "tags": [
+          "Contrato"
+        ],
+        "summary": "Listar todos as solicitações de contrato",
+        "description": "Essa rota retorna uma consulta no banco de dados com todos as solicitações de contrato",
+        "operationId": "ListarContrato",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/admin/login": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Login de adminstrador",
+        "description": "Essa rota permite que o adminsitrador possa fazer login no sistea e ter acesso as suas pemrições",
+        "operationId": "loginAdmin",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginAdmin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/admin": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Listagem dos adiminstradores",
+        "description": "Essa rota permite lstar todos os usuários administratores",
+        "operationId": "listarAdmin",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/admin/{id}": {
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Deletar um administrador",
+        "description": "Essa rota pemrite a exclução de um adiminstrador, a partir do {id} do mesmo",
+        "operationId": "listarAdmin",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/admin/cadastro": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Cadastrar um novo administrador",
+        "description": "Essa rota permite cadastrar um administrador, para isso será necessário prencher o fomulário de cadastro",
+        "operationId": "cadastroAdmin",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cadastroAdmin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/boletos": {
+      "get": {
+        "tags": [
+          "Boletos"
+        ],
+        "summary": "Lista os boletos pagos e atrasados",
+        "description": "Essa rota retorna do banco de dados todos os boletos gerados",
+        "operationId": "boletosListagem",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/boletos/associado/{id}": {
+      "get": {
+        "tags": [
+          "Boletos"
+        ],
+        "summary": "Lista todos os boletos de um associado",
+        "description": "Essa rota retorna do banco de dados todos os boletos gerados para um associado a partir do {id}",
+        "operationId": "boletosListagem",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/listarBoletos"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/boletos/relatoriofinanceiro": {
+      "get": {
+        "tags": [
+          "Boletos"
+        ],
+        "summary": "Lista todos os boletos pagos",
+        "description": "essa rota lista todos os boletos que ja foram pagos",
+        "operationId": "boletosRelatorio",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/boletos/gerar": {
+      "post": {
+        "tags": [
+          "Boletos"
+        ],
+        "summary": "Gerar Boletos",
+        "description": "Essa rota é voltada para gerar os boletos passar dados da associaçao e associado como (conta, agencia, nomeAssociado, cpf etc..), para a api do banco e gerar boleto para o associado",
+        "operationId": "boletosGerar",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosGerar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/boletos/{id}": {
+      "delete": {
+        "tags": [
+          "Boletos"
+        ],
+        "summary": "Deletar um boleto a partir de um {id}",
+        "description": "Essa rota permite que um boleto seja deletado passando o {id}",
+        "operationId": "boletosDelete",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/delete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/instituicao/": {
+      "post": {
+        "tags": [
+          "Instituicao"
+        ],
+        "summary": "Cadastro de uma instituição",
+        "description": "Essa rota permite cadastrar uma instituicao, para isso é necessário preencher os campos de cadastro de instituições",
+        "operationId": "instituicaoCadastro",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/intituicaoCadastro"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/instituicao/{id}": {
+      "delete": {
+        "tags": [
+          "Instituicao"
+        ],
+        "summary": "Deltar uma instituição a partir do {id}",
+        "description": "Essa rota permite que uma instituição seja deletada, é necessário o {id} da instituição para fazer esta operação",
+        "operationId": "instituicaoDelete",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/intituicaoDelete"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/instituicao/update/{id}": {
+      "put": {
+        "tags": [
+          "Instituicao"
+        ],
+        "summary": "Alterar os dados instituições a partir do {id}",
+        "description": "para isso é necessário preenher o formulario coms os dados referentes, e é esperado o {id} da instituição para efetuar a alteração",
+        "operationId": "instituicaoDelete",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/intituicaoUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/instituicao": {
+      "get": {
+        "tags": [
+          "Instituicao"
+        ],
+        "summary": "Lista todas as com seus dados instituições",
+        "description": "Essa rota retonar uma consulta do bano de dados, com todas as instituições cadastradas",
+        "operationId": "instituicaoGet",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/cobranca/{id}": {
+      "post": {
+        "tags": [
+          "Cobranca"
+        ],
+        "summary": "Cobrança a um associado a apartir do {id} do mesmo",
+        "description": "Essa rota permite fazer uma cobança ao associado que está com seus boletos atrasados",
+        "operationId": "cobranca",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cobranca"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/cobranca": {
+      "get": {
+        "tags": [
+          "Cobranca"
+        ],
+        "summary": "Listagem de cobranças feitas",
+        "description": "Essa rota retorna do banco de dados uma consulta de todas as cobranças realizadas",
+        "operationId": "cobranca",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/associacao/cadastro": {
+      "post": {
+        "tags": [
+          "Associacao"
+        ],
+        "summary": "Cadastro dos dados da associação",
+        "description": "O administrador ira cadastrar os dados da associação(conta, cnpj etc..)",
+        "operationId": "associacao",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/associacaoPost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/associacao/update/{id}": {
+      "put": {
+        "tags": [
+          "Associacao"
+        ],
+        "summary": "Atualizar dados da associação",
+        "description": "Essa rota permite atualizar os dados da associação a partir do {id}",
+        "operationId": "atualizarDados",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/alterarDadosAssociacao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/associacao/{id}": {
+      "delete": {
+        "tags": [
+          "Associacao"
+        ],
+        "summary": "Deletar dados de uma associação",
+        "description": "Essa rota permite deletar uma associação a partir de um {id}",
+        "operationId": "atualizarDados",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/alterarDadosAssociacao"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    },
+    "/associacao": {
+      "get": {
+        "tags": [
+          "Associacao"
+        ],
+        "summary": "Lista os dados da associação",
+        "description": "Essa rota restornar uma listagem de todos os dados da tabela associação",
+        "operationId": "listarDados",
+        "requestBody": {
+          "description": "Aqui será o Json da requisição",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/boletosListagem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Falta algum campo ou algo está fora do estabelecido."
+          },
+          "500": {
+            "description": "Acontece quando ocorre um erro interno no servidor."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "associadoCRUD": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string"
+          },
+          "diaUso": {
+            "type": "number"
+          },
+          "telefone": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "bairro": {
+            "type": "string"
+          },
+          "diaViagem": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          },
+          "inadimplante": {
+            "type": "boolean"
+          },
+          "cidade_id": {
+            "type": "number"
+          },
+          "instituicao_id": {
+            "type": "number"
+          }
+        }
+      },
+      "fotoUser": {
+        "type": "object",
+        "properties": {
+          "foto": {
+            "type": "string"
+          }
+        }
+      },
+      "alterarDados": {
+        "type": "object",
+        "properties": {
+          "idAssociado": {
+            "type": "number"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string"
+          },
+          "diaUso": {
+            "type": "number"
+          },
+          "telefone": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "bairro": {
+            "type": "string"
+          },
+          "diaViagem": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          },
+          "inadimplante": {
+            "type": "boolean"
+          },
+          "cidade_id": {
+            "type": "number"
+          },
+          "instituicao_id": {
+            "type": "number"
+          }
+        }
+      },
+      "listarBoletos": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          }
+        }
+      },
+      "loginAssociado": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          }
+        }
+      },
+      "renovarContrato": {
+        "type": "object",
+        "properties": {
+          "idContrato": {
+            "type": "number"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string"
+          },
+          "diaUso": {
+            "type": "number"
+          },
+          "telefone": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "bairro": {
+            "type": "string"
+          },
+          "diaViagem": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          },
+          "inadimplante": {
+            "type": "boolean"
+          },
+          "cidade_id": {
+            "type": "number"
+          },
+          "instituicao_id": {
+            "type": "number"
+          }
+        }
+      },
+      "cancelarContrato": {
+        "type": "object",
+        "properties": {
+          "idAssociado": {
+            "type": "number"
+          },
+          "idContrato": {
+            "type": "number"
+          },
+          "inadinplante": {
+            "type": "boolean"
+          }
+        }
+      },
+      "contratoId": {
+        "type": "object",
+        "properties": {
+          "idAssociado": {
+            "type": "number"
+          }
+        }
+      },
+      "loginAdmin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          }
+        }
+      },
+      "cadastroAdmin": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "nome": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "associadoDelete": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "boletosListagem": {
+        "type": "object",
+        "properties": {}
+      },
+      "boletosGerar": {
+        "type": "object",
+        "properties": {
+          "numeroContrato ": {
+            "type": "string"
+          },
+          "modalidade": {
+            "type": "string"
+          },
+          "numeroContaCorrente": {
+            "type": "string"
+          },
+          "especieDocumento": {
+            "type": "string"
+          },
+          "dataEmissao": {
+            "type": "string"
+          },
+          "dataVencimento": {
+            "type": "string"
+          }
+        }
+      },
+      "intituicaoCadastro": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "bairro": {
+            "type": "string"
+          }
+        }
+      },
+      "intituicaoDelete": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "intituicaoUpdate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "delete": {
+        "type": "object",
+        "properties": {
+          "idContrato": {
+            "type": "number"
+          }
+        }
+      },
+      "cobranca": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string"
+          },
+          "idAssociado": {
+            "type": "number"
+          },
+          "idAdmin": {
+            "type": "number"
+          }
+        }
+      },
+      "associacaoPost": {
+        "type": "object",
+        "properties": {
+          "razaoSocial": {
+            "type": "string"
+          },
+          "cpnj": {
+            "type": "string"
+          },
+          "conta": {
+            "type": "string"
+          },
+          "agencia": {
+            "type": "string"
+          },
+          "numeroBanco": {
+            "type": "number"
+          }
+        }
+      },
+      "alterarDadosAssociacao": {
+        "type": "object",
+        "properties": {
+          "idAssociacao": {
+            "type": "number"
+          },
+          "razaoSocial": {
+            "type": "string"
+          },
+          "cpnj": {
+            "type": "string"
+          },
+          "conta": {
+            "type": "string"
+          },
+          "agencia": {
+            "type": "string"
+          },
+          "numeroBanco": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ]
+  }
+}
