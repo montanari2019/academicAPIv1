@@ -75,7 +75,7 @@ module.exports = {
           especieDocumento: "DM",
           // dataEmissao: "2018-09-20T00:00:00-03:00",
           // nossoNumero: 2588658,
-          seuNumero: "1235512",
+          seuNumero: req.body[0].seuNumero,
           // identificacaoBoletoEmpresa: "4562",
           identificacaoEmissaoBoleto: 2,
           identificacaoDistribuicaoBoleto: 2,
