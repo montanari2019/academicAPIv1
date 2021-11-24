@@ -30,6 +30,38 @@ module.exports = {
     return res.json(data);
   },
 
+  async emitirSegundaVia(req, res) {
+    const userAuth = await User.findByPk(req.userId);
+
+    const nossoNumero = req.body
+    console.log("Nosso Número do boleto: ", nossoNumero);
+
+    const dadosBancarios = await DadoBancario.findAll({
+      where: { id_associacao: userAuth.id_associacao },
+    });
+
+    console.log("Token da api: ", dadosBancarios[0].accessToken);
+
+    const response = await fetch(
+      `https://sandbox.sicoob.com.br/cobranca-bancaria/v1/boletos/segunda-via?numeroContrato=${dadosBancarios[0].cod_cedente}&modalidade=1&nossoNumero=${nossoNumero}&gerarPdf=true
+      `,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${dadosBancarios[0].accessToken}`,
+        },
+      }
+    );
+    const data = await response.json();
+
+    // console.log(data);
+
+    return res.json(data);
+  },
+
+
+
   async refreshToken(req, res) {
     const dadosBancarios = await DadoBancario.findAll({
       where: { id_associacao: userAuth.id_associacao },
@@ -54,4 +86,5 @@ module.exports = {
 
 
   },
+  
 };
