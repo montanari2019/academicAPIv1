@@ -22,11 +22,11 @@ app.use(routes);
 passport.use(
   new OAuth2Strategy(
     {
-      authorizationURL:"https://sandbox.sicoob.com.br/oauth2/authorize?response_type=code&redirect_uri=http://localhost:3236/auth/example/callback&client_id=WSqTJUVMcf69ebmG15QNwbrDf4Ea&scope=cobranca_boletos_incluir+cobranca_boletos_consultar+cobranca_boletos_pagador+cobranca_boletos_segunda_via",
+      authorizationURL:"https://sandbox.sicoob.com.br/oauth2/authorize?response_type=code&redirect_uri=https://api-academic-control-v2.herokuapp.com/auth/sicoob/callback&client_id=WSqTJUVMcf69ebmG15QNwbrDf4Ea&scope=cobranca_boletos_incluir+cobranca_boletos_consultar+cobranca_boletos_pagador+cobranca_boletos_segunda_via",
       tokenURL: "https://sandbox.sicoob.com.br/token",
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3236/auth/example/callback",
+      callbackURL: "https://api-academic-control-v2.herokuapp.com/auth/sicoob/callback",
     },
 
     async function (accessToken, refreshToken, profile, callback) {
