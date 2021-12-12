@@ -2,6 +2,7 @@ const DadoBancario = require("../models/DadoBancario");
 const fetch = require("node-fetch");
 const User = require("../models/User");
 const schedule = require("node-schedule");
+const nodemailer = require("nodemailer");
 
 module.exports = {
   async listarPagador(req, res) {
@@ -235,5 +236,40 @@ module.exports = {
 
 
   },
+
+  async enviarEmail(req, res) {
+
+    const emailDestino = req.body.emailDestino
+    const mensagem = req.body.mensagen
+
+    // const resposta = ''
+    console.log("Email de destino", emailDestino)
+    let tranposter = nodemailer.createTransport({
+      host: "smtp.live.com",
+      port: 25,
+      secure: false,
+      auth: {
+        user: "ikaro.montanari@hotmail.com",
+        pass: "montanari2012"
+      }
+    })
+    console.log("Criando trasnorter")
+
+    await tranposter.sendMail({
+      from: 'ikaro.montanari@hotmail.com',
+      to: emailDestino,
+      subject: 'Associação de Acemicos de Chupinguaia',
+      html: mensagem,
+    }).then( resposta => {
+      console.log(resposta);
+      res.json(resposta)
+    }).catch(erro =>{
+      console.log(erro)
+      res.json(erro)
+    })
+
+    // res.json({ ok: true})
+
+  }
   
 };
