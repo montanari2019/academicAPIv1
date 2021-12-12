@@ -49,7 +49,13 @@ module.exports = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          'Access-Control-Allow-Methods' : 'GET, PUT, POST, DELETE, OPTIONS',
+          'Access-Control-Allow-Credentials' : true,
           Authorization: `Bearer ${dadosBancarios[0].accessToken}`,
+          host: "https://sandbox.sicoob.com.br/oauth2/",
+          mode: 'cors',
+          
         },
       }
     );
@@ -203,7 +209,6 @@ module.exports = {
 
     // return res.json({ message: true});
   },
-
 
 
   async refreshToken(req, res) {

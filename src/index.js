@@ -13,20 +13,35 @@ require("./database/index");
 
 const app = express();
 
+app.use((req, res, next) => {
+  // res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  
+  console.log('entrou no middleware')
+  next();
+})
+
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(routes);
 
+
+
 passport.use(
   new OAuth2Strategy(
     {
-      authorizationURL:"https://sandbox.sicoob.com.br/oauth2/authorize?response_type=code&redirect_uri=https://api-academic-control-v2.herokuapp.com/auth/sicoob/callback&client_id=WSqTJUVMcf69ebmG15QNwbrDf4Ea&scope=cobranca_boletos_incluir+cobranca_boletos_consultar+cobranca_boletos_pagador+cobranca_boletos_segunda_via",
+      authorizationURL:"https://sandbox.sicoob.com.br/oauth2/authorize?response_type=code&redirect_uri=http://localhost:3236/auth/example/callback&client_id=WSqTJUVMcf69ebmG15QNwbrDf4Ea&scope=cobranca_boletos_incluir+cobranca_boletos_consultar+cobranca_boletos_pagador+cobranca_boletos_segunda_via",
       tokenURL: "https://sandbox.sicoob.com.br/token",
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "https://api-academic-control-v2.herokuapp.com/auth/sicoob/callback",
+      callbackURL: "http://localhost:3236/auth/sicoob/callback",
+      host: "https://sandbox.sicoob.com.br/oauth2/",
+      mode: 'cors',
+      "Access-Control-Allow-Origin": "*",
+      'Access-Control-Allow-Methods' : 'GET, PUT, POST, DELETE, OPTIONS',
+      'Access-Control-Allow-Credentials' : true,
     },
 
     async function (accessToken, refreshToken, profile, callback) {

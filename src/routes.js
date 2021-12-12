@@ -14,6 +14,8 @@ const FaculdadeController = require('./app/controllers/FaculdadeController')
 const ContratoController = require('./app/controllers/ContratoController')
 const SicoobController = require('./app/controllers/SicoobController')
 
+
+
 routes.get('/inicio', (req, res) => res.json({ message: 'Bem vindo a aplicação Academic Controll' }));
 
 // Model de associações
@@ -74,7 +76,7 @@ routes.get('/auth/sicoob',
   passport.authenticate('oauth2'));
 
 routes.get('/auth/sicoob/callback',
-  passport.authenticate('oauth2', { failureRedirect: 'http://localhost:8080/?#/user' }),
+  passport.authenticate('oauth2', { failureRedirect: 'http://localhost:8080/?#/admin/Home' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
