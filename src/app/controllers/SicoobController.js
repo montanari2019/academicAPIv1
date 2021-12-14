@@ -73,7 +73,7 @@ module.exports = {
 
     const boleto01 = [
       {
-          numeroContrato: dadosBancarios[0].cod_cedente,
+          numeroContrato: 12345,
           modalidade: 1,
           numeroContaCorrente: dadosBancarios[0].conta,
           especieDocumento: "DM",

@@ -77,7 +77,7 @@ routes.get('/auth/sicoob',
   passport.authenticate('oauth2'));
 
 routes.get('/auth/sicoob/callback',
-  passport.authenticate('oauth2', { failureRedirect: 'http://localhost:8080/?#/admin/Home' }),
+  passport.authenticate('oauth2', { failureRedirect: 'https://front-academic-control.herokuapp.com/?#/admin/Home' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
