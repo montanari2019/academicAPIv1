@@ -34,7 +34,7 @@ module.exports = {
   async emitirSegundaVia(req, res) {
     const userAuth = await User.findByPk(req.userId);
 
-    const nossoNumero = req.body.nNumero
+    const nossoNumero = req.body.Numero
     console.log("Nosso Número do boleto: ", nossoNumero);
 
     const dadosBancarios = await DadoBancario.findAll({
@@ -50,9 +50,6 @@ module.exports = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          'Access-Control-Allow-Methods' : 'GET, PUT, POST, DELETE, OPTIONS',
-          'Access-Control-Allow-Credentials' : true,
           Authorization: `Bearer ${dadosBancarios[0].accessToken}`,
           host: "https://sandbox.sicoob.com.br/oauth2/",
           mode: 'cors',
@@ -76,7 +73,7 @@ module.exports = {
 
     const boleto01 = [
       {
-          numeroContrato: req.body[0].numeroContrato,
+          numeroContrato: dadosBancarios[0].cod_cedente,
           modalidade: 1,
           numeroContaCorrente: dadosBancarios[0].conta,
           especieDocumento: "DM",
